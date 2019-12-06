@@ -9,7 +9,7 @@ import time
 app = Flask(__name__)
 
 def getInfo(server_ip, ip):
-    url = "http://{0}/api/5/http/keyvals/one".format(server_ip)
+    url = "{0}api/5/http/keyvals/one".format(server_ip)
     data = {
         ip: "1" 
     }
