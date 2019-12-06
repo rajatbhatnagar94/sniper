@@ -26,8 +26,9 @@ def getInfo(server_ip, ip):
     print("current status - {0}".format(status))
     return response.json().get(ip)
 
-@app.route('/block/<ip>', methods=['POST'])
-def blockIP(ip):
+@app.route('/block', methods=['POST'])
+def blockIP():
+    ip = request.json.get('ip')
     server_ip = 'nginx'
     url = "http://{0}/api/5/http/keyvals/one".format(server_ip)
     data = {
@@ -44,8 +45,9 @@ def blockIP(ip):
     })
     return Response(response=response_pickled, status=200)
 
-@app.route('/unblock/<ip>', methods=['POST'])
-def unblockIP(ip):
+@app.route('/unblock', methods=['POST'])
+def unblockIP():
+    ip = request.json.get('ip')
     server_ip = 'nginx'
     url = "http://{0}/api/5/http/keyvals/one".format(server_ip)
     data = {
