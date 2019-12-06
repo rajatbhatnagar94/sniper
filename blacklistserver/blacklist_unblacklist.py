@@ -29,8 +29,8 @@ def getInfo(server_ip, ip):
 @app.route('/block', methods=['POST'])
 def blockIP():
     ip = request.json.get('ip')
-    server_ip = 'nginx'
-    url = "http://{0}/api/5/http/keyvals/one".format(server_ip)
+    server_ip = request.json.get('referrer')
+    url = "{0}api/5/http/keyvals/one".format(server_ip)
     data = {
         ip: "1" 
     }
@@ -48,8 +48,8 @@ def blockIP():
 @app.route('/unblock', methods=['POST'])
 def unblockIP():
     ip = request.json.get('ip')
-    server_ip = 'nginx'
-    url = "http://{0}/api/5/http/keyvals/one".format(server_ip)
+    server_ip = request.json.get('referrer')
+    url = "{0}api/5/http/keyvals/one".format(server_ip)
     data = {
         ip: "0"
     }
