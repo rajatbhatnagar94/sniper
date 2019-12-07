@@ -1,41 +1,43 @@
-import requests
+import grequests
 import json
 import sys
 #from time import perf_counter 
 import time
 
-def blockIP(ip):
-    url = "http://{0}/api/5/http/keyvals/one".format(ip)
-    data = {
-        ip: "1" 
-    }
-    headers = {'content-type': 'application/json'}
-    response = requests.post(url, data=json.dumps(data), headers=headers)
-    print(response.text)
-
-def unblockIP(ip):
-    url = "http://{0}/api/5/http/keyvals/one".format(ip)
-    data = {
-        ip: "0"
-    }
-    headers = {'content-type': 'application/json'}
-    response = requests.patch(url, data=json.dumps(data), headers=headers)
-    print(response.text)
-
-def mul(ip, x, y, n_iter):
+def mul(ip, x, n_iter):
+    requests = []
+    url = "{0}mul/{1}/{2}".format(ip, x, x)
     for i in range(n_iter):
-        url = "http://{0}/mul/{1}/{2}".format(ip, x, y)
-        response = requests.get(url)
-        print(response.text)
+        requests.append(grequests.get(url))
+    print("Sending Requests")
+    grequests.map(requests)
+
+def attack(api, n_iter):
+    url = None
+    if api == 'frontend':
+        url = 'http://34.83.176.120'
+    elif api == 'backend':
+        url = 'http://34.83.236.119/toxicity?text=hello'
+    if url is None:
+        print("please enter correct api (backend/frontend)")
+    else:
+        requests = []
+        for i in range(n_iter):
+            requests.append(grequests.get(url))
+        print("Sending Requests")
+        print(grequests.map(requests))
+    print("Attack Complete!!")
 
 if __name__ == "__main__":
-    ip = sys.argv[1]
-    api = sys.argv[2]
-    n_iter = int(sys.argv[3])
-    x = sys.argv[4]
-    if api == 'block':
-        blockIP(ip)
-    elif api == 'unblock':
-        unblockIP(ip)
+    api = sys.argv[1]
+    n_iter = int(sys.argv[2])
+    x = 1
+    if len(sys.argv) > 3:
+        x = int(sys.argv[3])
+    ip = "http://34.82.145.163/"
+    if api == 'frontend':
+        attack(api, n_iter)
+    elif api == 'backend':
+        attack(api, n_iter)
     elif api == 'multiply':
-        mul(ip, x, x, n_iter)
+        mul(ip, x, n_iter)
