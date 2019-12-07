@@ -8,6 +8,10 @@ import time
 
 app = Flask(__name__)
 
+hostname_ip_map = {
+    'webserver-dsc': 'http://34.83.176.120/',
+    'bert-dsc': 'http://34.83.236.119/'
+}
 def getInfo(server_ip, ip):
     url = "{0}api/5/http/keyvals/one".format(server_ip)
     data = {
@@ -30,7 +34,12 @@ def getInfo(server_ip, ip):
 def blockIP():
     print('Data Received - {0}'.format(request.json))
     ip = request.json.get('ip')
-    server_ip = request.json.get('referrer')
+    hostname = request.json.get('hostname')
+    server_ip = ""
+    if hostname is not None and hostname_ip_map.get(hostname):
+        server_ip = hostname_ip_map.get(hostname)
+    else:
+        print("hostname not configured")
     url = "{0}api/5/http/keyvals/one".format(server_ip)
     data = {
         ip: "1" 
@@ -57,7 +66,12 @@ def blockIP():
 def unblockIP():
     print('Data Received - {0}'.format(request.json))
     ip = request.json.get('ip')
-    server_ip = request.json.get('referrer')
+    hostname = request.json.get('hostname')
+    server_ip = ""
+    if hostname is not None and hostname_ip_map.get(hostname):
+        server_ip = hostname_ip_map.get(hostname)
+    else:
+        print("hostname not configured")
     url = "{0}api/5/http/keyvals/one".format(server_ip)
     data = {
         ip: "0"
