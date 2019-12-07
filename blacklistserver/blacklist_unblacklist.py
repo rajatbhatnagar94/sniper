@@ -36,13 +36,20 @@ def blockIP():
     }
     headers = {'content-type': 'application/json'}
     method = 'post'
-    is_existing = getInfo(server_ip, ip)
-    if is_existing:
-        method = 'patch'
-    response = requests.request(method, url, data=json.dumps(data), headers=headers)
     response_pickled = jsonpickle.encode({
-        'text': 'blocked' 
+        'text': 'error' 
     })
+    try:
+        is_existing = getInfo(server_ip, ip)
+        if is_existing:
+            method = 'patch'
+        response = requests.request(method, url, data=json.dumps(data), headers=headers)
+        response_pickled = jsonpickle.encode({
+            'text': 'blocked' 
+        })
+    except Exception as e:
+        print(e)
+        print('data - {0}'.format(request.json))
     return Response(response=response_pickled, status=200)
 
 @app.route('/unblock', methods=['POST'])
@@ -55,13 +62,20 @@ def unblockIP():
     }
     headers = {'content-type': 'application/json'}
     method = 'post'
-    is_existing = getInfo(server_ip, ip)
-    if is_existing:
-        method = 'patch'
-    response = requests.request(method, url, data=json.dumps(data), headers=headers)
     response_pickled = jsonpickle.encode({
-        'text': 'unblocked' 
+        'text': 'error' 
     })
+    try:
+        is_existing = getInfo(server_ip, ip)
+        if is_existing:
+            method = 'patch'
+        response = requests.request(method, url, data=json.dumps(data), headers=headers)
+        response_pickled = jsonpickle.encode({
+            'text': 'unblocked' 
+        })
+    except Exception as e:
+        print(e)
+        print('data - {0}'.format(request.json))
     return Response(response=response_pickled, status=200)
 
 app.run(host="0.0.0.0", port=5001)
