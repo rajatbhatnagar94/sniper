@@ -3,6 +3,7 @@
 ### Overview
 - We provide a Cloud based application security service
 - You can protect your servers from Denial of Service attacks by sending the load balancers access logs and application server logs to our cloud service.
+- You can also analyse your application logs do detect anomalies using the Kibana Dashboard provided.
 
 ### Integration with your application
 - Making configuration changes in Nginx.
