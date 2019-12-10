@@ -17,7 +17,7 @@ def attack(api, n_iter):
     if api == 'frontend':
         url = 'http://34.83.176.120'
     elif api == 'backend':
-        url = 'http://34.83.236.119/toxicity?text=hello'
+        url = 'http://34.83.127.198/toxicity?text=hello'
     if url is None:
         print("please enter correct api (backend/frontend)")
     else:
