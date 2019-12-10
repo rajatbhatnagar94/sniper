@@ -14,8 +14,10 @@ def mul(ip, x, n_iter):
 
 def attack(api, n_iter):
     url = None
-    if api == 'frontend':
+    if api == 'protected' or api == 'frontend':
         url = 'http://34.83.176.120'
+    elif api == 'unprotected':
+        url = 'http://35.238.191.49'
     elif api == 'backend':
         url = 'http://34.83.127.198/toxicity?text=hello'
     if url is None:
@@ -35,7 +37,9 @@ if __name__ == "__main__":
     if len(sys.argv) > 3:
         x = int(sys.argv[3])
     ip = "http://34.82.145.163/"
-    if api == 'frontend':
+    if api == 'protected' or api == 'frontend':
+        attack(api, n_iter)
+    elif api == 'unprotected':
         attack(api, n_iter)
     elif api == 'backend':
         attack(api, n_iter)
